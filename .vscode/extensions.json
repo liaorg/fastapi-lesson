@@ -1,0 +1,16 @@
+{
+    "recommendations": [
+        "aaron-bond.better-comments",
+        "alefragnani.bookmarks",
+        "ms-ceintl.vscode-language-pack-zh-hans",
+        "ms-vscode.notepadplusplus-keybindings",
+        "zhuangtongfa.material-theme",
+        "ms-vscode-remote.remote-ssh",
+        "ms-python.python",
+        "vscode-icons-team.vscode-icons",
+        "alibaba-cloud.tongyi-lingma",
+        "usernamehw.errorlens",
+        "tamasfe.even-better-toml",
+        "njpwerner.autodocstring"
+    ]
+}
