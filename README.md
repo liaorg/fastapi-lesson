@@ -2,15 +2,15 @@
 命名要语义化，使用用英文单词，不要缩写除非是众所周知的缩写 \
 本规范使用:
 
-1. 驼峰式命名(camelCase)：单个命名中，首个词是以小写字母开头，后面每个词都是以大写字母开始
-2. 帕斯卡命名(PascalCase)：单个命名中，每个词都是以大写字母开始
+1. 小驼峰式命名(lowerCamelCase)：单个命名中，首个词是以小写字母开头，后面每个词都是以大写字母开始
+2. 帕斯卡命名(PascalCase)/大驼峰式命名(UpperCamelCase)：单个命名中，每个词都是以大写字母开始
 3. 烤串命名(kebab-case)：单个命名中，每个单词都是小写的，之间用连字符 - 连接
 4. 大蛇形命名(UPPER_SNAKE_CASE)：单个命名中，每个单词都是大写的，之间用下划线 \_ 连接
 4. 小蛇形命名(lower_snak_case)：单个命名中，每个单词都是小写的，之间用下划线 \_ 连接
 
 |         命名法         | 使用场景                                                      |
 | :--------------------: | :------------------------------------------------------------ |
-| 帕斯卡命名 PascalCase  | 类名、枚举名、类型名、对象、项目名           |
+| 大驼峰式命名 UpperCamelCase  | 类名、枚举名、类型名、对象、项目名           |
 |  大蛇形命名 UPPER_SNAKE_CASE   | 常量、静态变更              |
 |  小蛇形命名 lower_snak_case   | 普通变量、类变量、类属性、函数、函数参数、数据库字段、文件名              |
 |  烤串命名 kebab-case   | 路由 path |
@@ -113,9 +113,13 @@ uv pip compile pyproject.toml requirements-dev.in -o requirements-dev.txt
 source .venv/Scripts/activate 
 # 开发
 fastapi dev
+fastapi dev --help
 fastapi dev --host 0.0.0.0
 # 生产
 fastapi run
+
+uvicorn main:app
+uvicorn main:app --host 0.0.0.0 --log-config /dev/null --reload
 ```
 
 ## 目录结构

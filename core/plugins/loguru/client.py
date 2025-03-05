@@ -29,12 +29,12 @@ class LoguruPluginClient(IBasePlugin):
     It provides middleware to log request and response details.
 
     Usage Example:
-    log = LoguruPluginClient(core_app=core_app, settings=LoguruPluginClient.LoguruConfig(
+    log = LoguruPluginClient(app=app, settings=LoguruPluginClient.LoguruConfig(
         MODEL=RecordModel.CENTRALIZED
     ))
     from afast_core.core_plugins.log import logger
 
-    @core_app.get("/stream12")
+    @app.get("/stream12")
     def stream():
         logger.info('日志记录信息')
         return {
@@ -44,15 +44,15 @@ class LoguruPluginClient(IBasePlugin):
 
     name = "日志记录插件"
 
-    def __init__(self, core_app: FastAPI, settings: BaseSettings):
+    def __init__(self, app: FastAPI, settings: BaseSettings):
         """
         Initialize the LoguruPluginClient.
 
         Args:
-            core_app (FastAPI): The FastAPI application instance.
+            app (FastAPI): The FastAPI application instance.
             settings (Settings): Configuration settings for the plugin.
         """
-        self.core_app = core_app
+        self.app = app
         self.settings = settings
 
     def filter_request_url(self, request: Request) -> bool:

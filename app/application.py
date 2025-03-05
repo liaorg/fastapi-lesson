@@ -46,6 +46,7 @@ class FastApplicationBuilder(IApplicationBuilder):
 
     def _register_loguru_log_client(self, app: FastAPI) -> None:
         # 放在在最后处理因为是日志作用，所以一般使用的时候最后再执行注册
+        pass
         # 日志插件初始化
         LoguruPluginClient(
             app=app,
@@ -60,11 +61,13 @@ class FastApplicationBuilder(IApplicationBuilder):
 
     def _register_global_request(self, app: FastAPI) -> None:
         # 注册应用全局请求的request
+        pass
         GlobalRequestPluginClient(app=app)
         logger.info("GlobalRequestPluginClient插件安装成功")
 
     def _register_plugins(self, app: FastAPI) -> None:
         # 应用注册注册插件
+        pass
         # 离线本地文档浏览
         SwaggeruiPluginClient(app=app, proxy=self.settings.swaggerui_proxy)
 
@@ -112,7 +115,7 @@ class FastApplicationBuilder(IApplicationBuilder):
 
     def _register_routes(self, app: FastAPI) -> None:
         logger.info("路由开始注册")
-        app_router = APIRouter(tags=[""], prefix="/adn/api/v1")
+        app_router = APIRouter(tags=[""], prefix="/api/v1")
         # from infirmary_admin_src.infirmary_business.snowy_modules.core_auth.setup import router_module as core_auth
         # from infirmary_admin_src.infirmary_business.snowy_modules.dev.setup import router_module as dev
         # from src.modules.snowy.modules.sys import router_module as sys
@@ -144,6 +147,7 @@ class FastApplicationBuilder(IApplicationBuilder):
         app.include_router(app_router)
 
     def _register_middlewares(self, app: FastAPI) -> None:
+        pass
         app.add_middleware(
             CORSMiddleware,
             allow_origins=["*"],

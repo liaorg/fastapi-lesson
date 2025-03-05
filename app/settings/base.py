@@ -21,7 +21,7 @@ class ISettings(BaseSettings):
 
     # ===========日志插件参数配置==============
     # 日志插件参数配置
-    LOG_MODEL = RecordModel.SCATTERED
+    LOG_MODEL: RecordModel = RecordModel.SCATTERED
     # 配置日志相关信息
     LOG_PROJECT_SLUG: str = "info"
     # 日志文件的目录,当前插件初始化位置所在的目录
@@ -35,15 +35,15 @@ class ISettings(BaseSettings):
     # 日志记录的等等级
     LOG_FILE_LEVEL: str = "INFO"
     # 日志需要过滤的不做记录的URL请求
-    FLITER_REQUEST_URL = [
+    FLITER_REQUEST_URL: list[str] = [
         "/favicon.ico",
         "/favicon.png",
-        "/docs",
-        "/",
-        "/openapi.json",
-        "/health_checks",
-        "/static/swagger-ui.css",
-        "/static/swagger-ui-bundle.js",
+        # "/docs",
+        # "/",
+        # "/openapi.json",
+        # "/health_checks",
+        # "/static/swagger-ui.css",
+        # "/static/swagger-ui-bundle.js",
     ]
 
     # ===========SwaggeruiPluginClient插件参数配置==============

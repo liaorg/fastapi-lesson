@@ -37,8 +37,12 @@ def set_log_extras(record):
 
 class InterceptHandler(logging.Handler):
     """
-    Default infirmary_controller from examples in loguru documentaion.
-    See https://loguru.readthedocs.io/en/stable/overview.html#entirely-compatible-with-standard-logging
+    日志拦截处理器：将所有 Python 标准日志重定向到 Loguru （用于处理uvicorn / fastapi 等自带的日志）
+
+    工作原理：
+    1. 继承自 logging.Handler
+    2. 重写 emit 方法处理日志记录
+    3. 将标准库日志转换为 Loguru 格式
     """
 
     def emit(self, record: logging.LogRecord):
@@ -52,17 +56,20 @@ class InterceptHandler(logging.Handler):
             record (logging.LogRecord): The log record to be emitted.
         """
         # Get corresponding Loguru level if it exists
+        # 尝试获取日志级别名称
         try:
             level = logger.level(record.levelname).name
         except ValueError:
             level = record.levelno
 
         # Find caller from where originated the logged message
+        # 获取调用帧信息
         frame, depth = logging.currentframe(), 2
         while frame.f_code.co_filename == logging.__file__:
             frame = frame.f_back
             depth += 1
 
+        # 使用 Loguru 记录日志
         logger.opt(
             depth=depth,
             exception=record.exc_info,
@@ -198,6 +205,13 @@ def format_record(record: dict) -> str:
 def init_logging(app_config):
     """
     Replaces logging infirmary_controller with a infirmary_controller for using the custom infirmary_controller.
+    配置日志系统
+
+    功能：
+    1. 控制台彩色输出
+    2. 文件日志轮转
+    3. 错误日志单独存储
+    4. 异步日志记录
 
     WARNING!
     if you call the init_logging in startup event function,
@@ -231,8 +245,13 @@ def init_logging(app_config):
     logging.getLogger("rocketry").handlers = []
     # set logs output, level and format
     logger.configure(
-        handlers=[{"sink": sys.stdout, "level": logging.DEBUG, "format": format_record}]
+        handlers=[
+            {"sink": sys.stdout, "level": logging.DEBUG, "format": format_record}
+        ],
+        extra={"request_id": ""},
     )
+    # 去除默认控制台输出
+    # logger.remove()
     #   logger.add参数：
     #
     # sink：要添加的日志记录器的句柄。它可以是一个函数，一个可调用的对象，或者一个字符串（用于表示内置的日志记录器）。
