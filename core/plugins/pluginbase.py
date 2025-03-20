@@ -10,6 +10,8 @@ import abc
 
 from fastapi import FastAPI
 
+from core.plugins.loguru import logger
+
 
 class PluginException(Exception):
     """查询异常的定义"""
@@ -34,7 +36,9 @@ class IBasePlugin(metaclass=abc.ABCMeta):
             self.name = name or self.name
             self.app = app
             self.settings = settings
+
             self.setup(app, name, settings, **options)
+            logger.info(f"[{name} Plugin] initialized")
         else:
             pass
 

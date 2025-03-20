@@ -25,8 +25,8 @@ class SwaggeruiPluginClient(BasePlugin):
 
     def __init__(self, app: FastAPI = None, name=None, proxy=False, **options):
         """插件初始化"""
-        super().__init__(app, name, **options)
         self.proxy = proxy
+        super().__init__(app, name, **options)
 
     def setup(self, app: FastAPI, name: str = None, *args, **kwargs):
         """插件初始化"""
@@ -37,8 +37,8 @@ class SwaggeruiPluginClient(BasePlugin):
         # 路由： Route(path='/docs/oauth2-redirect', name='swagger_ui_redirect', methods=['GET', 'HEAD'])
         # 路由： Route(path='/redoc', name='redoc_html', methods=['GET', 'HEAD'])
 
-        # assert core_app.redoc_url is None and core_app.docs_url is None, '本地的Swaggerui文档插件，请先关闭APP原始的开关设置为None'
-        # 过滤路由的方式，不用手动的关闭app.redoc_url is None and core_app.docs_url is None
+        # assert app.redoc_url is None and app.docs_url is None, '本地的Swaggerui文档插件，请先关闭APP原始的开关设置为None'
+        # 过滤路由的方式，不用手动的关闭app.redoc_url is None and app.docs_url is None
         app.router.routes = [
             route
             for route in app.routes
@@ -65,7 +65,6 @@ class SwaggeruiPluginClient(BasePlugin):
         )
 
         # 自定义需要在关闭的情况下才可以
-        @app.get("/", include_in_schema=False)
         @app.get("/docs", include_in_schema=False)
         @app.get("/swagger/docs", include_in_schema=False)
         async def custom_swagger_ui_html(req: Request):
@@ -88,10 +87,12 @@ class SwaggeruiPluginClient(BasePlugin):
             if self.proxy:
                 swagger_js_url = "/swagger-ui-bundle.js"
                 swagger_css_url = "/swagger-ui.css"
+                swagger_favicon_url = "/favicon.png"
             else:
                 pass
                 swagger_js_url = "/static/swagger-ui-bundle.js"
                 swagger_css_url = "/static/swagger-ui.css"
+                swagger_favicon_url = "/static/favicon.png"
 
             return get_swagger_ui_html(
                 openapi_url=openapi_url,
@@ -101,6 +102,7 @@ class SwaggeruiPluginClient(BasePlugin):
                 init_oauth=app.swagger_ui_init_oauth,
                 swagger_ui_parameters=app.swagger_ui_parameters,
                 swagger_css_url=swagger_css_url,
+                swagger_favicon_url=swagger_favicon_url,
                 # swagger_js_url: str = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui-bundle.js",
                 # swagger_css_url: str = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui.css",
                 # swagger_favicon_url: str = "https://fastapi.tiangolo.com/img/favicon.png",
@@ -112,8 +114,18 @@ class SwaggeruiPluginClient(BasePlugin):
 
         @app.get("/redoc", include_in_schema=False)
         async def redoc_html():
+            if self.proxy:
+                redoc_js_url = "/redoc.standalone.js"
+                redoc_favicon_url = "/favicon.png"
+            else:
+                pass
+                redoc_js_url = "/static/redoc.standalone.js"
+                redoc_favicon_url = "/static/favicon.png"
+
             return get_redoc_html(
                 openapi_url=app.openapi_url,
                 title=app.title + " - ReDoc",
-                redoc_js_url="/static/redoc.standalone.js",
+                redoc_js_url=redoc_js_url,
+                with_google_fonts=False,
+                redoc_favicon_url=redoc_favicon_url,
             )

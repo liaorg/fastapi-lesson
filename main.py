@@ -6,18 +6,18 @@
 
 from app.application import app  # noqa: F401
 
-if __name__ == "__main__":
-    import inspect
-    from pathlib import Path
+# if __name__ == "__main__":
+#     import inspect
+#     from pathlib import Path
 
-    app_model_name = inspect.getmodulename(Path(__file__).name)
-    import uvicorn
+#     app_model_name = inspect.getmodulename(Path(__file__).name)
+#     import uvicorn
 
-    uvicorn.run(
-        f"{app_model_name}:app",
-        host="0.0.0.0",
-        port=8000,
-        log_config=None,
-        workers=1,
-        reload=True,
-    )
+#     uvicorn.run(
+#         f"{app_model_name}:app",
+#         host="0.0.0.0",
+#         port=8000,
+#         log_config=None,
+#         workers=1,
+#         reload=True,
+#     )

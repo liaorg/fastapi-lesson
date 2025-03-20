@@ -127,7 +127,7 @@ def format_record(record: dict) -> str:
     # IP
     if record["extra"].get("ip") is not None:
         format_string += " <cyan>ip:{extra[ip]} </cyan>|"
-        # 记录进程和线程信息
+    # 记录进程和线程信息
     format_string += "<green>P:{process.name}</green> |"
     format_string += "<green>T:{thread.id}:{thread.name}</green> |"
 
@@ -225,9 +225,9 @@ def init_logging(app_config):
     2020-07-25 02:19:21.357 | INFO     | uvicorn.lifespan.on:startup:34 - Application startup complete.
 
     """
-    # disable infirmary_controller for specific uvicorn loggers
+    # disable controller for specific uvicorn loggers
     # to redirect their output to the default uvicorn logger
-    # infirmary_tasks with uvicorn==0.11.6
+    # tasks with uvicorn==0.11.6
     loggers = (
         logging.getLogger(name)
         for name in logging.root.manager.loggerDict
@@ -237,11 +237,11 @@ def init_logging(app_config):
     for uvicorn_logger in loggers:
         uvicorn_logger.handlers = []
 
-    # change infirmary_controller for default uvicorn logger
+    # change controller for default uvicorn logger
     # 加上这段会导致日志输出断层或只是偶尔记录
     intercept_handler = InterceptHandler()
     logging.getLogger("uvicorn").handlers = [intercept_handler]
-    # logging.getLogger("uvicorn").infirmary_controller = []
+    # logging.getLogger("uvicorn").controller = []
     logging.getLogger("rocketry").handlers = []
     # set logs output, level and format
     logger.configure(
@@ -276,7 +276,7 @@ def init_logging(app_config):
         compression=app_config.LOG_FILE_COMPRESSION,
         enqueue=True,
         backtrace=True,
-        # serialize=True, # the record is provided as a JSON string to the infirmary_controller
+        # serialize=True, # the record is provided as a JSON string to the controller
         level=app_config.LOG_FILE_LEVEL,
         format=format_record,
     )

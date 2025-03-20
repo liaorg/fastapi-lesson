@@ -11,9 +11,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from core.app import IApplicationBuilder
 from core.plugins.globalrequest.request import GlobalRequestPluginClient
-from core.plugins.loguru import logger
 from core.plugins.loguru.client import LoguruPluginClient
 from core.plugins.swaggerui import SwaggeruiPluginClient
+from core.tools.router import load_controller_modules
 
 from .settings.development import DevSettings
 from .settings.production import ProSettings
@@ -36,12 +36,12 @@ class FastApplicationBuilder(IApplicationBuilder):
         return cls(settings=Environment.select())
 
     def _instance_app(self) -> FastAPI:
+        # logger.info(f"{self.settings}")
         # 创建实例对象
         return FastAPI(
             title=self.settings.project_name,
             version=self.settings.project_version,
             debug=self.settings.debug,
-            # depends=[Depends(Logging)],
         )
 
     def _register_loguru_log_client(self, app: FastAPI) -> None:
@@ -50,6 +50,7 @@ class FastApplicationBuilder(IApplicationBuilder):
         # 日志插件初始化
         LoguruPluginClient(
             app=app,
+            name="Loguru",
             settings=LoguruPluginClient.LoguruConfig(
                 PROJECT_SLUG=self.settings.LOG_PROJECT_SLUG,
                 FLITER_REQUEST_URL=self.settings.FLITER_REQUEST_URL,
@@ -57,19 +58,21 @@ class FastApplicationBuilder(IApplicationBuilder):
                 MODEL=self.settings.LOG_MODEL,
             ),
         )
-        logger.info("LoguruPluginClient插件安装成功")
 
     def _register_global_request(self, app: FastAPI) -> None:
         # 注册应用全局请求的request
         pass
-        GlobalRequestPluginClient(app=app)
-        logger.info("GlobalRequestPluginClient插件安装成功")
+        GlobalRequestPluginClient(app=app, name="GlobalRequest")
 
     def _register_plugins(self, app: FastAPI) -> None:
         # 应用注册注册插件
         pass
         # 离线本地文档浏览
-        SwaggeruiPluginClient(app=app, proxy=self.settings.swaggerui_proxy)
+        SwaggeruiPluginClient(
+            app=app,
+            name="Swaggerui",
+            proxy=self.settings.swaggerui_proxy,
+        )
 
         # # 异步缓存插件
         # AsyncCashewsPluginClient(app=app, settings=AsyncCashewsPluginClient.CacheSettings(
@@ -114,35 +117,13 @@ class FastApplicationBuilder(IApplicationBuilder):
         # setup_snowy_ext_exception(app=app)
 
     def _register_routes(self, app: FastAPI) -> None:
-        logger.info("路由开始注册")
-        app_router = APIRouter(tags=[""], prefix="/api/v1")
-        # from infirmary_admin_src.infirmary_business.snowy_modules.core_auth.setup import router_module as core_auth
-        # from infirmary_admin_src.infirmary_business.snowy_modules.dev.setup import router_module as dev
-        # from src.modules.snowy.modules.sys import router_module as sys
-        # from src.modules.snowy.modules.dev import router_module as dev
-        # from infirmary_admin_src.infirmary_system.snowy_modules.core_auth.setup import GroupAPIRouterBuilder as core_auth
-        # app_router.include_router(core_auth.instance())
-
-        # from infirmary_admin_src.infirmary_system.snowy_modules.authV1.setup import AGroupAPIRouterBuilder
-        # app_router.include_router(AGroupAPIRouterBuilder.instance())
-
-        # from infirmary_admin_src.infirmary_system.snowy_modules.authV1.setup import GroupAPIRouterBuilder as auth2
-        # app_router.include_router(auth2.instance())
-
-        # 系统模块
-        # from infirmary_admin_src.infirmary_smart_admin.infirmary_biz.system.login.setup import (
-        #     AGroupAPIRouterBuilder as SystemMageageLoginBuilder,
-        # )
-
-        # app_router.include_router(SystemMageageLoginBuilder.instance())
-
-        # ====其他模块
-
-        # snowy_app.include_router(dev)
-        logger.info("路由模块插件导入插件安装成功")
+        app_router = APIRouter(prefix="/api/v1")
         # 加入模块路由组
         # from fastapi import Depends
         # app.include_router(app_router, dependencies=[Depends(smart_admin_check_login)])
+
+        # 自动注册模块路由
+        load_controller_modules(app_router, module_dir="app/modules")
 
         app.include_router(app_router)
 
@@ -155,7 +136,7 @@ class FastApplicationBuilder(IApplicationBuilder):
             allow_methods=["*"],
             allow_headers=["*"],
         )
-        # 测试验证可以读取响应报文和读取请求报文信息的中间件
+        # 读取响应报文和读取请求报文信息的中间件
         from core.middleware.request_response import (
             RequestResponseMiddleware,
         )

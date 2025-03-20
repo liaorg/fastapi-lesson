@@ -22,7 +22,6 @@ class RequestResponseMiddleware(BaseResponseMiddleware):
 
     async def before_request(self, request: Request) -> Response | None:
         """如果需要修改请求信息，可直接重写此方法"""
-        # print("你是谁？")
         await self.get_body()
         return self.app
 

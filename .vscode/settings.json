@@ -125,7 +125,6 @@
         "**/__pycache__": true,
         "**/.ruff_cache": true,
         "**/.venv": true,
-        "**/static": true
     },
     "remote.SSH.showLoginTerminal": true
 }

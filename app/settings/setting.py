@@ -44,7 +44,6 @@ class Environment:
         """
         # 根据环境变量的来选择使用的配置
         env_vars: MutableMapping[Any, Any] = os.environ
-        print(f"环境变量信息{env_vars.get('environment')}")
         # 根据不同环境变量返回不同的环境配置实例对象
         if env_vars.get("environment") == "development":
             settings_class = DevSettingsBuilder

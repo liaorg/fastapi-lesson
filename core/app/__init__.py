@@ -25,13 +25,6 @@ class IApplicationBuilder:
     def _instance_app(self) -> FastAPI:
         raise NotImplementedError
 
-    def _register_health_checks(self, app: FastAPI):
-        pass
-
-        @app.get("/health_checks", tags=["健康检查模块"], summary="健康检查接口")
-        async def health_checks():
-            return "ok"
-
     @abc.abstractmethod
     def _register_loguru_log_client(self, app: FastAPI) -> None:
         """注册日志处理"""
@@ -66,7 +59,6 @@ class IApplicationBuilder:
         """创建实例"""
         try:
             # 约束注册流程-避免错误
-            # logging.critical("约束注册流程")
             # 创建实例对象
             app = self._instance_app()
             # 执行自定义的日志配置插件放在最后执行，以便获取到上下文的实例对象
@@ -81,8 +73,6 @@ class IApplicationBuilder:
             self._register_global_request(app)
             # 注册路由
             self._register_routes(app)
-            # 健康检查路由
-            self._register_health_checks(app)
             return app
         except Exception as e:
             logging.critical(f"项目启动失败:{e}")

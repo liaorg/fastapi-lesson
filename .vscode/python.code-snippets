@@ -1,6 +1,7 @@
 {
-    "FILE_HEADER": {
-        "prefix": "fh",
+    "PYTHON_FILE_HEADER": {
+        "scope": "python",
+        "prefix": "pfh",
         "body": [
             "#!/usr/bin/env python",
             "# -*- coding: UTF-8 -*-",

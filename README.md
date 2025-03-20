@@ -118,7 +118,7 @@ fastapi dev --host 0.0.0.0
 # 生产
 fastapi run
 
-uvicorn main:app
+uvicorn main:app --reload
 uvicorn main:app --host 0.0.0.0 --log-config /dev/null --reload
 ```
 
@@ -168,23 +168,21 @@ async def read_user(user_id: int, service: UserService = Depends(get_user_servic
     return service.get_user_by_id(user_id)
 
 
-# 启动服务的一种试，可以不要
 # uvicorn main:app --host 0.0.0.0 --port 80
+# 启动服务的一种方试，可以不要
 # if __name__ == "__main__":
-#     使用 python main.py 启动服务
 #     import uvicorn
 #     uvicorn.run(app, host="127.0.0.1", port=8000)
 
 ```
+### 常用库
+1. `fastapi-utils`
+> [https://github.com/fastapiutils/fastapi-utils] \
+[https://fastapiutils.github.io/fastapi-utils/]
 
-## 修改接⼝⽂档的资源地址
-修改 fastapi 源代码 `.venv/Lib/site-packages/fastapi/openapi/docs.py`
-把 `swagger_js_url` 修改为 `"/static/swagger-ui-bundle.js"`
-把 `swagger_css_url` 修改为 `"/static/swagger-ui.css"`
-把 `swagger_favicon_url` 修改为 `"/static/favicon.png"`
-在app中注册static⽬录
-```python
-# 把项目下的 static 日录作为访问路径
-app.mount("/static", StaticFiles(directory="static"), name="static")
-```
+2. `fastapi-injectable`
+> [https://github.com/JasperSui/fastapi-injectable] \
+[https://j-sui.com/2024/10/26/use-fastapi-depends-outside-fastapi-routes/]
 
+
+### 接口方案 apijson

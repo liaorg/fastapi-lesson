@@ -36,14 +36,14 @@ class ISettings(BaseSettings):
     LOG_FILE_LEVEL: str = "INFO"
     # 日志需要过滤的不做记录的URL请求
     FLITER_REQUEST_URL: list[str] = [
+        "/",
         "/favicon.ico",
         "/favicon.png",
-        # "/docs",
-        # "/",
-        # "/openapi.json",
-        # "/health_checks",
-        # "/static/swagger-ui.css",
-        # "/static/swagger-ui-bundle.js",
+        "/docs",
+        "/openapi.json",
+        "/static/swagger-ui.css",
+        "/static/swagger-ui-bundle.js",
+        "/static/redoc.standalone.js",
     ]
 
     # ===========SwaggeruiPluginClient插件参数配置==============

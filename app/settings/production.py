@@ -15,6 +15,11 @@ class ProSettings(ISettings):
     environment: str = "production"
     debug: bool = False
 
+    # ===========日志插件参数配置==============
+    # 日志插件参数配置
+    # 日志记录的等等级
+    LOG_FILE_LEVEL: str = "WARNING"
+
     # ===========SqlalchemyPluginForClassV2Client插件参数配置==============
     MYSQL_SERVER_HOST: str = "xxxxxxxx"
     MYSQL_USER_NAME: str = "xxxxxx"
