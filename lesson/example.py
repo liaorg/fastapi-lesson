@@ -30,3 +30,9 @@ def prime_number(rangeInt: int):
                 break
         else:
             print(f"{i}是素数")
+
+
+# 字符串格式化
+# "1+2={}，2的平方={}".format(1+2, 2**2)
+print(f"1+2={1 + 2}，2的平方={2**2}, 3的平方={3**2}")
+print(f"{(1 + 2):#x}")
