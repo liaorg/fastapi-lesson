@@ -25,6 +25,7 @@
         "${workspaceFolder}/.venv/Lib/site-packages",
         "${workspaceFolder}/.venv/Scripts"
     ],
+    "python.analysis.typeCheckingMode": "standard",
     "editor.cursorBlinking": "expand",
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.comments.insertSpace": true,

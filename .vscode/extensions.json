@@ -11,6 +11,11 @@
         "alibaba-cloud.tongyi-lingma",
         "usernamehw.errorlens",
         "tamasfe.even-better-toml",
+        "almenon.arepl",
+        "oderwat.indent-rainbow",
+        "ionutvmi.path-autocomplete",
+        "kevinrose.vsc-python-indent",
+        "cstrap.python-snippets",
         "njpwerner.autodocstring"
     ]
 }

@@ -7,6 +7,7 @@
     },
     "[python]": {
         "editor.formatOnSave": true,
+        "editor.formatOnType": true,
         "editor.codeActionsOnSave": {
             "source.fixAll": "explicit",
             "source.organizeImports": "explicit"
@@ -24,6 +25,7 @@
         "${workspaceFolder}/.venv/Lib/site-packages",
         "${workspaceFolder}/.venv/Scripts"
     ],
+    "python.analysis.typeCheckingMode": "standard",
     "editor.cursorBlinking": "expand",
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.comments.insertSpace": true,
@@ -125,7 +127,6 @@
         "**/__pycache__": true,
         "**/.ruff_cache": true,
         "**/.venv": true,
-        "**/static": true
     },
     "remote.SSH.showLoginTerminal": true
 }
