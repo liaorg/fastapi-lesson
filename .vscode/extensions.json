@@ -16,6 +16,7 @@
         "ionutvmi.path-autocomplete",
         "kevinrose.vsc-python-indent",
         "cstrap.python-snippets",
+        "njqdev.vscode-python-typehint",
         "njpwerner.autodocstring"
     ]
 }
